@@ -43,9 +43,14 @@ jobs:
           cd GemFarm  # Переходим в директорию с проектом, где есть файл buildozer.spec
           buildozer android debug  # Команда для сборки APK
 
+      # Проверка, что APK был создан
+      - name: Check APK existence
+        run: |
+          if [ -f ./bin/app-debug.apk ]; then echo "APK exists"; else echo "APK not found"; exit 1; fi
+
       # Загружаем APK файл как артефакт
       - name: Upload APK to artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2  # Используем v2
         with:
           name: app-debug.apk      # Имя файла артефакта
           path: ./bin/app-debug.apk  # Путь к собранному APK файлу
